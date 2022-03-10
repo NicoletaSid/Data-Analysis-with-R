@@ -1,0 +1,231 @@
+#TASK 1
+Housedata=read.table("C:/Users/Souzana/Desktop/DATA ANALYSIS WITH R/data.txt",header = TRUE)
+View(Housedata)
+
+#a)
+apply(Housedata=="*",2,which)[c(3,7)]
+Housedata$AGE=as.numeric(Housedata$AGE)
+Housedata$TAX=as.numeric(Housedata$TAX)
+str(Housedata)
+
+#b)
+Housedata$NE=factor(Housedata$NE,levels = c(0,1),labels = c("No","Yes"))
+Housedata$COR=factor(Housedata$COR,levels = c(0,1),labels = c("No","Yes"))
+
+#c)
+del=which(apply(is.na(Housedata),1,sum)>=2)
+Housedata=Housedata[-del,]
+
+#d)
+Housedata$SQFT=Housedata$SQFT/10.764
+names(Housedata)[which(names(Housedata)=="SQFT")]="SQM"
+
+#e)
+subfull=na.omit(Housedata)
+View(subfull)
+
+lmfullA=lm(AGE~.,data=subfull)
+lmfullT=lm(TAX~.,data=subfull)
+
+newdataA=data.frame(
+  PRICE=c(Housedata$PRICE[is.na(Housedata$AGE)]),
+  SQM=c(Housedata$SQM[is.na(Housedata$AGE)]),
+  FEATS=c(Housedata$FEATS[is.na(Housedata$AGE)]),
+  NE=Housedata$NE[is.na(Housedata$AGE)],
+  COR=Housedata$COR[is.na(Housedata$AGE)],
+  TAX=c(Housedata$TAX[is.na(Housedata$AGE)])
+)
+predA=unname(round(predict(lmfullA,newdataA)))
+
+Housedata[which(is.na(Housedata$AGE)),]$AGE=predA
+
+newdataT=data.frame(
+  PRICE=c(Housedata$PRICE[is.na(Housedata$TAX)]),
+  SQM=c(Housedata$SQM[is.na(Housedata$TAX)]),
+  AGE=c(Housedata$AGE[is.na(Housedata$TAX)]),
+  FEATS=c(Housedata$FEATS[is.na(Housedata$TAX)]),
+  NE=Housedata$NE[is.na(Housedata$TAX)],
+  COR=Housedata$COR[is.na(Housedata$TAX)]
+)
+predT=unname(round(predict(lmfullT,newdataT)))
+
+Housedata[which(is.na(Housedata$TAX)),]$TAX=predT
+
+#TASK 2
+#a)
+attach(Housedata)
+library(psych)
+describe(PRICE)[,c(3,4,5,8,9)]
+describe(SQM)[,c(3,4,5,8,9)]
+describe(AGE)[,c(3,4,5,8,9)]
+describe(FEATS)[,c(3,4,5,8,9)]
+describe(TAX)[,c(3,4,5,8,9)]
+
+table(NE);table(COR)
+prop.table(table(Housedata$FEATS))
+
+#b)
+sub0=Housedata[,-c(5,6)]
+View(sub0)
+
+library(PerformanceAnalytics)
+chart.Correlation(sub0)
+
+#c)
+#NE
+par(fig=c(0,0.5,0.5,1),mai=c(0.5,0.9,0.5,0.1))
+barplot(table(Housedata$NE)/length(Housedata$NE),col = c("red","green"),ylim = c(0,0.7),
+        main = "Barplot of NE",
+        ylab = "Relative Frequency")
+legend("topleft",legend = c("NE: No","NE: Yes"),cex = 0.5,
+       col = c("red","green"),pch = 16,bty = "n")
+#COR
+par(fig=c(0.5,1,0.5,1),mai=c(0.5,0.9,0.5,0.1),new=T)
+barplot(table(Housedata$COR)/length(Housedata$COR),col = c("red","green"),ylim = c(0,0.8),
+        main = "Barplot of COR",
+        ylab = "Relative Frequency")
+legend("topright",legend = c("COR: No","COR: Yes"),cex = 0.5,
+       col = c("red","green"),pch = 16,bty = "n")
+#FEATS
+par(fig=c(0.2,0.8,0,0.5),mai=c(0.4,0.9,0.5,0.1),new=T)
+barplot(table(factor(Housedata$FEATS,
+                     levels = 0:max(Housedata$FEATS)))/length(Housedata$FEATS),
+        col = "black",ylim = c(0,0.4),
+        main = "Barplot of FEATS",
+        ylab = "Relative Frequency")
+
+#d)
+par(mfrow=c(1,2),mai=c(0.8,0.9,0.5,0.1))
+
+boxplot(PRICE~NE,data=Housedata,col=c("red","green"),xlab = "NE",ylab = "PRICE")
+legend("topleft",legend = c("NE: No","NE: Yes"),pch = 15,col = c("red","green"),cex = 0.47)
+
+boxplot(PRICE~COR,data=Housedata,col=c("red","green"),xlab = "COR",ylab = "PRICE")
+legend("topright",legend = c("COR: No","COR: Yes"),pch = 15,col = c("red","green"),cex = 0.47)
+mtext("Boxplots of PRICE for the categorical variables",outer = T,
+      line = -2,cex = 1.25)
+
+#e)
+shapiro.test(PRICE)
+round(aggregate(PRICE~NE, data=Housedata, FUN = mean)[c(1,2),2],2)
+wilcox.test(PRICE~NE,data = Housedata)
+
+round(aggregate(PRICE~COR, data=Housedata, FUN = mean)[c(1,2),2],2)
+wilcox.test(PRICE~COR,data = Housedata)
+
+#f)
+library(psych)
+describe(PRICE)[11]>1
+describe(SQM)[11]>1
+describe(AGE)[11]>1
+describe(FEATS)[11]>1
+describe(TAX)[11]>1
+
+shapiro.test(PRICE)
+shapiro.test(SQM)
+shapiro.test(TAX)
+
+shapiro.test(log(PRICE))
+library(nortest)
+lillie.test(log(PRICE))
+shapiro.test(log(SQM))
+shapiro.test(log(TAX))
+
+Housedata$PRICE=log(PRICE)
+Housedata$SQM=log(SQM)
+Housedata$TAX=log(TAX)
+
+names(Housedata)[which(names(Housedata)=="PRICE")]="logPRICE"
+names(Housedata)[which(names(Housedata)=="SQM")]="logSQM"                       
+names(Housedata)[which(names(Housedata)=="TAX")]="logTAX"
+
+detach(Housedata)
+attach(Housedata)
+
+#g)
+sub1=Housedata[,-c(5,6)]
+View(sub1)
+
+library(PerformanceAnalytics)
+chart.Correlation(sub1)
+
+par(mfrow=c(1,2),mai=c(0.8,0.9,0.5,0.1))
+
+boxplot(logPRICE~NE,col=c("red","green"),xlab = "NE",ylab = "logPRICE")
+legend("topleft",legend = c("NE: No","NE: Yes"),pch = 15,col = c("red","green"),cex = 0.47)
+
+boxplot(logPRICE~COR,col=c("red","green"),xlab = "COR",ylab = "logPRICE")
+legend("topright",legend = c("COR: No","COR: Yes"),pch = 15,col = c("red","green"),cex = 0.47)
+mtext("Boxplots of logPRICE for the categorical variables",outer = T,
+      line = -2,cex = 1.25)
+
+#TASK 3
+#a)
+lmfullP=lm(logPRICE~.,data=Housedata)
+summary(lmfullP)
+
+#b)
+mfinal=step(lmfullP,direction = "both")
+summary(mfinal)
+
+par(mfrow =c(2,3))
+plot(mfinal,which = 1:6)
+
+shapiro.test(rstandard(mfinal))$p.value
+    
+yhat=mfinal$fitted
+qyhat=cut(yhat,breaks=quantile(yhat,probs=seq(0,1,1/3)))
+bartlett.test(rstandard(mfinal)~qyhat)$p.value
+    
+install.packages("lmtest")
+library(lmtest)
+dwtest(mfinal)$p.value
+    
+library(car)
+residualPlots(mfinal,plot=F)
+
+par(mfrow=c(2,3))
+plot(mfinal,which=1:6)
+
+library(randtests)
+runs.test(rstandard(mfinal))
+
+library(car)
+residualPlots(mfinal,plot= F)
+mfinal1=step(lm(logPRICE~.+I(logTAX^2), data=Housedata),direction = "both")
+summary(mfinal1)
+
+#c)
+catFEATS=cut(FEATS, breaks = c(min(FEATS),3,7,max(FEATS)),
+             labels = c("Low","Moderate","High"))
+anovaFEATS=aov(logPRICE~catFEATS)
+summary(anovaFEATS)
+
+Housedata=cbind(Housedata,catFEATS)
+
+#d)
+sub= Housedata[,-c(5,8)]
+
+finalN=step(glm((as.numeric(NE)-1)~.,data= sub,family="binomial"),
+            direction = "both")
+summary(finalN)
+
+xnew=data.frame(logSQM=log(180),AGE=15,FEATS=5,logTAX=log(1000))
+logitp=predict(finalN,xnew)
+p=exp(logitp)/(1+exp(logitp))
+p
+
+#e)
+library(tree)
+Housedata$catFEATS=ordered(Housedata$catFEATS,levels=c("Low","Moderate","High"))
+fitCOR=tree(COR~.,data = Housedata[,-8])
+summary(fitCOR)
+tCORtree=table(COR,predict(fitCOR,type="class"))
+sum(diag(tCORtree))/sum(tCORtree)
+
+plot(fitCOR,lwd=2,col="dodgerblue3")
+text(fitCOR, cex=0.8)
+mtext("Decision Tree for Housedata dataset",side = 3,line = 2,cex=2)
+
+logPRICE=log(1000) ; logSQM=log(150) ; AGE=17 ; FEATS=4; NE="Yes" ; logTAX=log(800) 
+logPRICE ; logSQM ; AGE ; FEATS ; NE ; logTAX
