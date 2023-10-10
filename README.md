@@ -1,2 +1,5 @@
-# Data-Analysis-with-R
-and
+# Data-Analysis-eLearning-Academy-Final-Project
+# Description of the project
+Data Analytics eLearning Academy Final Project is a hands-on project completed by myself as the final coursework step of a Data Analytics academy that participated in. The project consists of two parts.  the snippet of code file runned in the RStudio programming interface open-source tool and collect descriptive statistical measures, data visualization graphs as well hypothesis tests results for use in the data analysis process. Regarding the second part of the project, the data analysis is conducted by using the materail collected earlier. More specifically, it is explained the     
+
+In detail, the project involves the application of statistical methods and predictive modeling techniques to analyze and interpret data. It aims to uncover patterns, trends and statistical relationships between the variables within the dataset through running statistical hypothesis tests, and make informed predictions based on the findings. Some of the predictive analysis algorithms that are used incude linear regression and logistic resgression models. In addition, the project will employ data visualization techniques and classification algorithm processes to provide valuable insights and actionable conclusions for the target domain. 
