@@ -1,8 +1,12 @@
-# Data-Analysis-eLearning-Academy-Final-Project
-# Description of the project
-Data Analytics eLearning Academy Final Project is a hands-on project completed by myself as the final coursework step of a Data Analytics academy that I participated in. The project involves the application of statistical methods and predictive modeling techniques to analyze and interpret data. It aims to uncover patterns, trends and statistical relationships between the variables within the dataset through running statistical hypothesis tests, and make informed predictions based on the findings. Some of the predictive analysis algorithms that are used incude linear regression and logistic resgression models. In addition, the project will employ data visualization techniques and classification algorithm processes to provide valuable insights and actionable conclusions for the target domain. 
+# Data Analysis eLearning Academy: Final Project
+## Description of the project
+This project is the culmination of the Data Analytics eLearning Academy, completed as the final step of my coursework. It involves the application of statistical methods and predictive modeling techniques to analyze and interpret data, with the goal of uncovering patterns, trends, and statistical relationships between variables within the dataset. Through statistical hypothesis testing and predictive analysis, this project aims to derive meaningful insights and make informed predictions. Key predictive algorithms used include linear regression and logistic regression models. Additionally, data visualization techniques and classification algorithms are employed to deliver valuable insights and actionable conclusions within the target domain. 
+## Project Files
+### Data Analysis with R.txt: 
+This file contains the R code executed in the RStudio environment. The code is used to calculate descriptive statistics for the dataset variables, generate insightful data visualization graphs, perform statistical hypothesis tests, and apply predictive and classification algorithms.
+### Data Analysis Report.pdf: 
+This document provides a detailed account of the steps followed in conducting the statistical analysis, including methodology, findings, and interpretations.
+### data set.txt: 
+This file contains the dataset used for the analysis, including all variables involved in the project.
 
-The project files provided are the Data Analysis with R.txt, Data Analysis Report.pdf and the data set.txt. 
-In the data set.txt are contained all the data and variables that are used for the data analysis process. 
-As about the Data Analysis with R.txt file, it is displayed the snippet of code runned in the RStudio programming interface open-source tool. The code can be used for calculating the main descriptive statistical measures of the dataset variables contained in the data set.txt file, creating insightful data visualization graphs, running statistical hypothesis tests as well aplying predictive analysis and classification algorithms.
-Finally, in the Data Analysis Report.pdf file, are provided all the steps which are followed for the statistical analysis to be conducted. 
+
