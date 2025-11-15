@@ -6,7 +6,5 @@ This project is the culmination of the Data Analytics eLearning Academy, complet
 This file contains the R code executed in the RStudio environment. The code is used to calculate descriptive statistics for the dataset variables, generate insightful data visualization graphs, perform statistical hypothesis tests, and apply predictive and classification algorithms.
 ### Data Analysis Report.pdf: 
 This document provides a detailed account of the steps followed in conducting the statistical analysis, including methodology, findings, and interpretations.
-### data set.txt: 
-This file contains the dataset used for the analysis, including all variables involved in the project.
 
 
